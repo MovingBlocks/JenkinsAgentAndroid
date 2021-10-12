@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
               container('kaniko') {
-                sh '/kaniko/executor -f ./Dockerfile -c $(pwd) --reproducible --tarPath=JenkinsAndroidSDKAgent.tar --destination=image --no-push'
+                sh '/kaniko/executor -f ./Dockerfile -c $(pwd) --reproducible --tarPath=JenkinsAndroidSDKAgent.tar --destination=android-agent --no-push'
                 archiveArtifacts 'JenkinsAndroidSDKAgent.tar'
               }
             }
