@@ -26,8 +26,8 @@ pipeline {
                 container('kaniko') {
                     git 'https://github.com/Cervator/JenkinsAndroidSDKAgent.git'
                     sh '''
-                        tokenVar=$(echo -n $DOCKER_CRED | base64)
-                        sed -i "s/PLACEHOLDER/$tokenVar/g" config.json
+                        tokenVar=$(echo -n $DOCKER_CRED | base64) > out.log 2>&1
+                        sed -i "s/PLACEHOLDER/$tokenVar/g" config.json > out.log 2>&1
                         cp config.json /kaniko/.docker/config.json
                         /kaniko/executor -f ./Dockerfile -c $(pwd) --reproducible --destination=terasology/jenkins-android-agent:$DOCKER_TAG
                     '''
