@@ -1,9 +1,11 @@
 String deduceDockerTag() {
     String dockerTag = env.BRANCH_NAME
     if (dockerTag.equals("main")) {
+        echo "Building the 'main' branch so we'll publish as the 'latest' Docker tag"
         dockerTag = "latest"
     } else {
         dockerTag += env.BUILD_NUMBER
+        echo "Building a branch other than 'main' so will publish as $dockerTag, not 'latest'"
     }
     return dockerTag
 }    
@@ -23,13 +25,12 @@ pipeline {
             steps {
                 container('kaniko') {
                     git 'https://github.com/Cervator/JenkinsAndroidSDKAgent.git'
-                    sh """
-                        echo -n $DOCKER_CRED | base64 > token
-                        tokenVar=\$(cat token)
-                        sed -i "s/PLACEHOLDER/\$tokenVar/g" config.json
+                    sh '''
+                        tokenVar=$(echo -n $DOCKER_CRED | base64)
+                        sed -i "s/PLACEHOLDER/$tokenVar/g" config.json
                         cp config.json /kaniko/.docker/config.json
-                        /kaniko/executor -f ./Dockerfile -c \$(pwd) --reproducible --destination=terasology/jenkins-android-agent:$DOCKER_TAG
-                    """
+                        /kaniko/executor -f ./Dockerfile -c $(pwd) --reproducible --destination=terasology/jenkins-android-agent:$DOCKER_TAG
+                    '''
                 }
             }
         }
