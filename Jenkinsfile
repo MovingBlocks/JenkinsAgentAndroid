@@ -8,15 +8,15 @@ String deduceDockerTag() {
         echo "Building a branch other than 'main' so will publish as $dockerTag, not 'latest'"
     }
     return dockerTag
-}    
+}
 
 pipeline {
     agent {
         label 'kaniko'
     }
-    
+
     environment {
-        DOCKER_CRED = credentials('docker-hub-cervator-token')
+        DOCKER_CRED = credentials('docker-hub-terasology-token')
         DOCKER_TAG = deduceDockerTag()
     }
 
@@ -24,7 +24,7 @@ pipeline {
         stage('Build') {
             steps {
                 container('kaniko') {
-                    git 'https://github.com/Cervator/JenkinsAndroidSDKAgent.git'
+                    checkout scm
                     sh '''
                         set +x
                         tokenVar=$(echo -n $DOCKER_CRED | base64) > out.log 2>&1
