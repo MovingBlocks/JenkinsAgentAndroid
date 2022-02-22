@@ -4,7 +4,7 @@ USER root
 
 ENV ANDROID_SDK_ROOT=/opt/android-sdk
 
-RUN apt-get update && apt-get install -y ruby ruby-dev ruby-bundler build-essential \
+RUN apt-get update && apt-get install -y ruby ruby-dev build-essential \
 && gem install --no-document fastlane \
 && apt-get purge -y ruby-dev build-essential && apt-get autoremove -y
 
