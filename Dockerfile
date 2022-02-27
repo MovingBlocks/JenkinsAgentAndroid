@@ -15,7 +15,7 @@ RUN mkdir -p /opt/android-sdk/cmdline-tools \
 && mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest \
 && mkdir /opt/android-sdk/licenses \
 && printf "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > /opt/android-sdk/licenses/android-sdk-license \
-&& /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;30.0.2" "platforms;android-30" \
+&& /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager "build-tools;30.0.3" "platforms;android-30" \
 && chown -R jenkins:jenkins /opt/android-sdk
 
 USER jenkins
